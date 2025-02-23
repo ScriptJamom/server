@@ -1,4 +1,4 @@
-name: CI
+name: Add Emojis to Commits
 
 on:
   push:
@@ -6,20 +6,15 @@ on:
       - main
 
 jobs:
-  build:
+  add-emojis:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
+      - name: Add emoji to commit message
+        run: |
+          git config --local user.email "you@example.com"
+          git config --local user.name "GitHub Actions"
+          git commit --amend -m "$(git log -1 --pretty=%B) 🎉"
+          git push --force
